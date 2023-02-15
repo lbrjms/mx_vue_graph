@@ -9,7 +9,13 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue": "^2.6.14"
+    "mxgraph": "^4.2.2",
+    "vue": "^2.6.14",
+    "less-loader": "^6.1.2",
+    "vue-json-viewer": "^2.2.14",
+    "element-ui": "^2.13.2",
+    "ramda": "^0.27.1",
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
