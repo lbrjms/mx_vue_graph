@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3901288 */
-  src: url('./iconfont/iconfont.woff2?t=1676622027086') format('woff2'),
-       url('./iconfont/iconfont.woff?t=1676622027086') format('woff'),
-       url('./iconfont/iconfont.ttf?t=1676622027086') format('truetype');
+  src: url('iconfont.woff2?t=1676622027086') format('woff2'),
+       url('iconfont.woff?t=1676622027086') format('woff'),
+       url('iconfont.ttf?t=1676622027086') format('truetype');
 }
 
 .iconfont {
@@ -15,77 +15,53 @@
 
 .icon-redo:before {
   content: "\e7c2";
-  font-size: 30px;
-
 }
 
 .icon-zuhe1:before {
-  font-size: 20px;
-  font-weight: 600;
   content: "\e648";
 }
 
 .icon-zoomout:before {
-  font-size: 20px;
-  font-weight: 600;
   content: "\e897";
 }
 
 .icon-zoomin:before {
-  font-size: 20px;
-  font-weight: 600;
   content: "\e898";
 }
 
 .icon-undo:before {
-  font-size: 30px;
   content: "\e7c1";
 }
 
 .icon-suofangdaodengbi:before {
-  font-size: 20px;
-  font-weight: 600;
   content: "\e64e";
 }
 
 .icon-shanchu:before {
-  font-size: 18px;
-  font-weight: 600;
   content: "\e74b";
 }
 
 .icon-daochutupian:before {
-  font-size: 20px;
-  font-weight: 600;
   content: "\e647";
 }
 
 .icon-wanggekai:before {
-  font-size: 18px;
   content: "\e783";
 }
 
 .icon-fenceng:before {
-  font-size: 20px;
-  font-weight: 600;
   content: "\e6b2";
 }
 
 .icon-ico_huanxingbuju:before {
-  font-size: 20px;
-  font-weight: 600;
   content: "\e63d";
 }
 
 .icon-ico_shuxingbuju:before {
-  font-size: 20px;
-  font-weight: 600;
   content: "\e63e";
 }
 
 .icon-suijishushengcheng-xuanzhong:before {
-  font-size: 20px;
   content: "\e764";
-  font-weight: 600;
 }
 

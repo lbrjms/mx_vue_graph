@@ -1,43 +1,10 @@
 <template>
   <div class="customToolbarContainer">
-    <!-- 左侧节点/放大缩小工具 菜单 -->
+    <!-- 左侧节点-->
     <div class="toolbarContainer">
-      <div class="aside-button-group">
-        <el-button-group style="margin: 10px 0">
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="放大"
-            placement="bottom"
-          >
-            <el-button icon="el-icon-zoom-in" @click="zoomIn"></el-button>
-          </el-tooltip>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="缩小"
-            placement="bottom"
-          >
-            <el-button icon="el-icon-zoom-out" @click="zoomOut"></el-button>
-          </el-tooltip>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="等比缩放"
-            placement="bottom"
-          >
-            <el-button
-              @click="autoSize"
-              icon="iconfont icon-expandalt-fill"
-            ></el-button>
-          </el-tooltip>
-        </el-button-group>
-      </div>
-      <!-- 节点样板菜单 -->
+      
       <el-collapse v-model="activeNames">
-        <el-collapse-item name="1" class="general-toolbar">
-          <!-- 基础节点图标 -->
-          <template slot="title">基础节点</template>
+        <el-collapse-item name="1" title="基础节点" class="general-toolbar">
           <span
             v-for="item in generalToolbarItems"
             :style="item['style']"
@@ -48,19 +15,19 @@
             <span class="generalTooltitle">{{ item["text"] }}</span>
           </span>
         </el-collapse-item>
+        <el-collapse-item name="1" title="电力图标" class="general-toolbar">
+        </el-collapse-item>
+
       </el-collapse>
     </div>
     <!-- 画布的顶部工具栏 -->
     <div class="top-tools">
       <el-col :span="4">
         <div
-          class="grid-content bg-purple"
           style="
-            color: rgb(64, 158, 255);
             text-align: left;
-            font-weight: 800;
+            font-weight: 700;
             font-size: 22px;
-            margin-left: 0px;
           "
         >
           WX GRAPH Editor
@@ -68,139 +35,15 @@
       </el-col>
       <el-col :span="12" class="tools-group">
         <el-tooltip
-          class="item"
-          effect="dark"
-          content="组合"
-          placement="bottom"
+          v-for="item in tools.items"
+          :key="item.icon_id"
+          :content="item.name"
         >
           <el-button
             type="text"
-            icon="iconfont icon-zuhe"
-            @click="enGroup"
-          ></el-button>
-        </el-tooltip>
-
-        <el-tooltip
-          class="item"
-          effect="dark"
-          v-if="showBackground"
-          content="隐藏网格背景"
-          placement="bottom"
-        >
-          <el-button
-            type="text"
-            icon="iconfont icon-dituleiwanggequ-copy"
-            @click="showBackground = false"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          v-else
-          class="item"
-          effect="dark"
-          content="显示网格背景"
-          placement="bottom"
-        >
-          <el-button
-            type="text"
-            icon="iconfont icon-fangxingweixuanzhong-copy"
-            @click="showBackground = true"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="导出为图片"
-          placement="bottom"
-        >
-          <el-button
-            type="text"
-            icon="iconfont icon-tupian"
-            @click="showImage"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="环形布局"
-          placement="bottom"
-        >
-          <el-button
-            @click="graphLayout(true, 'circleLayout')"
-            type="text"
-            icon="el-icon-stopwatch"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="树形布局"
-          placement="bottom"
-        >
-          <el-button
-            type="text"
-            @click="graphLayout(true, 'compactTreeLayout')"
-            icon="iconfont icon-Directory-tree"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="随机布局"
-          placement="bottom"
-        >
-          <el-button
-            type="text"
-            @click="graphLayout(true, 'randomLayout')"
-            icon="el-icon-c-scale-to-original"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="分层布局"
-          placement="bottom"
-        >
-          <el-button
-            type="text"
-            @click="graphLayout(true, 'hierarchicalLayout')"
-            icon="el-icon-files"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="撤销"
-          placement="bottom"
-        >
-          <el-button
-            type="text"
-            icon="iconfont icon-reply"
-            @click="goBack"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="前进"
-          placement="bottom"
-        >
-          <el-button
-            type="text"
-            icon="iconfont icon-share"
-            @click="goForward"
-          ></el-button>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="删除"
-          placement="bottom"
-        >
-          <el-button
-            type="text"
-            icon="el-icon-delete-solid"
-            @click="deleteNode"
-          ></el-button>
+            :class="['iconfont','icon-'+item.font_class,'tool_item']"
+            @click="callToolsAction(item.action,item.params)"
+          />
         </el-tooltip>
       </el-col>
     </div>
@@ -226,7 +69,10 @@
   </div>
 </template>
 <script>
+import tools from "./toolbar/tools.js";
+import toolsMethods from "./toolbar/methods"
 // 导入自定义图标数组
+
 import { generalToolbarItems } from "./general-shape";
 import * as R from "ramda";
 import mx from "mxgraph";
@@ -286,9 +132,11 @@ export default {
     // 组元素
     generalToolbarItems: () => generalToolbarItems,
   },
+  mixins:[toolsMethods],
   components: {},
   data() {
     return {
+      tools,
       graph: null,
       editor: null,
       palettes: {},
@@ -323,6 +171,8 @@ export default {
     };
   },
   methods: {
+    
+
     // 创建画布并进行初始化
     createGraph() {
       // 创建graph
@@ -533,16 +383,18 @@ export default {
       };
     },
     // 布局
-    graphLayout(animate, layoutType) {
-      this.graph.getModel().beginUpdate();
+    graphLayout(self, layoutType) {
+      
+      self.graph.getModel().beginUpdate();
       try {
         if (layoutType === "randomLayout") {
           // 随机布局
-          mxFastOrganicLayout.prototype.minDistanceLimit = 100;
-          // eslint-disable-next-line new-cap
-          var layout = new mxFastOrganicLayout(this.graph);
-          layout.forceConstant = 500;
-          layout.execute(this.graph.getDefaultParent());
+          console.log('mxFastOrganicLayout',mxFastOrganicLayout );
+          // mxFastOrganicLayout.prototype.minDistanceLimit = 100;
+          // // eslint-disable-next-line new-cap
+          // var layout = new mxFastOrganicLayout(self.graph);
+          // layout.forceConstant = 500;
+          // layout.execute(self.graph.getDefaultParent());
         } else if (layoutType === "hierarchicalLayout") {
           // 分层布局
           mxHierarchicalLayout.prototype.intraCellSpacing = 300;
@@ -556,33 +408,33 @@ export default {
 
           // eslint-disable-next-line new-cap
           var hierarchicallayout = new mxHierarchicalLayout(
-            this.graph,
+            self.graph,
             mxConstants.DIRECTION_NORTH
           );
-          hierarchicallayout.execute(this.graph.getDefaultParent());
+          hierarchicallayout.execute(self.graph.getDefaultParent());
         } else if (layoutType === "compactTreeLayout") {
           // 树形布局
           // eslint-disable-next-line new-cap
-          var compactTreelayout = new mxCompactTreeLayout(this.graph);
-          compactTreelayout.execute(this.graph.getDefaultParent());
+          var compactTreelayout = new mxCompactTreeLayout(self.graph);
+          compactTreelayout.execute(self.graph.getDefaultParent());
         } else if (layoutType === "circleLayout") {
           // 圆形布局
           // eslint-disable-next-line new-cap
-          var circleLayout = new mxCircleLayout(this.graph, 400);
-          circleLayout.execute(this.graph.getDefaultParent());
+          var circleLayout = new mxCircleLayout(self.graph, 400);
+          circleLayout.execute(self.graph.getDefaultParent());
         }
       } finally {
         // 是否开启布局动画
-        if (animate) {
+        // if (animate) {
           // eslint-disable-next-line new-cap
-          var morph = new mxMorphing(this.graph, 20, 7.7, 40);
+          var morph = new mxMorphing(self.graph, 20, 7.7, 40);
           morph.addListener(mxEvent.DONE, () => {
-            this.graph.getModel().endUpdate();
+            self.graph.getModel().endUpdate();
           });
           morph.startAnimation();
-        } else {
-          this.graph.getModel().endUpdate();
-        }
+        // } else {
+        //   self.graph.getModel().endUpdate();
+        // }
       }
     },
     // 初始化基础节点
@@ -1133,12 +985,8 @@ export default {
       ];
       mxPolyline.prototype.constraints = null;
     },
-   
-    // 删除节点
-    deleteNode() {
-      var cells = this.graph.getSelectionCells();
-      this.graph.removeCells([...cells]);
-    },
+
+    
     //复制
     copy() {
       let selectionCells = this.graph.getSelectionCells();
@@ -1154,105 +1002,65 @@ export default {
       cells = this.graph.getSelectionCells();
       mxClipboard.cut(this.graph, cells);
     },
-    // 前进
-    goForward() {
-      this.undoMng.redo();
-    },
-    // 撤退
-    goBack() {
-      this.undoMng.undo();
-    },
-    // 放大
-    zoomIn() {
-      this.graph.zoomIn();
-    },
-    // 缩小
-    zoomOut() {
-      this.graph.zoomOut();
-    },
-    // 等比例缩放
-    autoSize() {
-      // 方法一
-      // this.editor.execute('actualSize');
-      //方法二：
-      this.graph.zoomActual();
-      this.graph.fit(); //自适应
-      this.graph.center(); //将画布放到容器中间
-    },
-    // 生成图片
-    showImage() {
-      this.editor.execute("show"); //直接页面跳转,并以svg流程图
-      // 下载svg流程图
-      console.log("this.gtaph", this.graph);
-      const svg = this.exportModelSvg();
-      const blob = new Blob([svg], { type: "image/svg+xml" });
-      const url = URL.createObjectURL(blob);
-      let link = document.createElement("a");
-      link.href = url;
-      link.download = "model.svg";
-      link.click();
-    },
+   
+   
     exportModelSvg() {
-      let scale = this.graph.view.scale;
-      let bounds = this.graph.getGraphBounds();
-      let border = 10;
-      // Prepares SVG document that holds the output
-      let svgDoc = mxUtils.createXmlDocument();
-      let root =
-        svgDoc.createElementNS != null
-          ? svgDoc.createElementNS(mxConstants.NS_SVG, "svg")
-          : svgDoc.createElement("svg");
-
-      if (root.style != null) {
-        root.style.backgroundColor = "#FFFFFF";
-      } else {
-        root.setAttribute("style", "background-color:#FFFFFF");
-      }
-
-      if (svgDoc.createElementNS == null) {
-        root.setAttribute("xmlns", mxConstants.NS_SVG);
-      }
-      let width = Math.ceil((bounds.width * scale) / scale + 2 * border);
-      let height = Math.ceil((bounds.height * scale) / scale + 2 * border);
-      root.setAttribute("class", "svg-container");
-      root.setAttribute("width", width + "px");
-      root.setAttribute("height", height + "px");
-      root.setAttribute("viewBox", "0 0 " + width + " " + height);
-      root.setAttribute("xmlns:xlink", mxConstants.NS_XLINK);
-      root.setAttribute("version", "1.1");
-
-      // Adds group for anti-aliasing via transform
-      let group =
-        svgDoc.createElementNS != null
-          ? svgDoc.createElementNS(mxConstants.NS_SVG, "g")
-          : svgDoc.createElement("g");
-      group.setAttribute("transform", "translate(0.5,0.5)");
-      root.appendChild(group);
-      svgDoc.appendChild(root);
-
-      // Renders graph. Offset will be multiplied with state's scale when painting state.
-      let svgCanvas = new mxSvgCanvas2D(group);
-      svgCanvas.translate(
-        Math.floor(border / scale - bounds.x),
-        Math.floor(border / scale - bounds.y)
-      );
-      svgCanvas.scale(scale);
-
-      let imgExport = new mxImageExport();
-      imgExport.drawState(
-        this.graph.getView().getState(this.graph.model.root),
-        svgCanvas
-      );
-
-      //let xml = encodeURIComponent(mxUtils.getXml(root)); //no need
-      let xml = mxUtils.getXml(root);
-      return xml;
-    },
-    enGroup() {
-      this.editor.graph.setSelectionCell(this.editor.groupCells());
-      this.$message.success("组合成功");
-      // this.editor.groupCells(null, 0, this.graph.getSelectionCells());
-    },
+        let scale = this.graph.view.scale;
+        let bounds = this.graph.getGraphBounds();
+        let border = 10;
+        // Prepares SVG document that holds the output
+        let svgDoc = mxUtils.createXmlDocument();
+        let root =
+          svgDoc.createElementNS != null
+            ? svgDoc.createElementNS(mxConstants.NS_SVG, "svg")
+            : svgDoc.createElement("svg");
+  
+        if (root.style != null) {
+          root.style.backgroundColor = "#FFFFFF";
+        } else {
+          root.setAttribute("style", "background-color:#FFFFFF");
+        }
+  
+        if (svgDoc.createElementNS == null) {
+          root.setAttribute("xmlns", mxConstants.NS_SVG);
+        }
+        let width = Math.ceil((bounds.width * scale) / scale + 2 * border);
+        let height = Math.ceil((bounds.height * scale) / scale + 2 * border);
+        root.setAttribute("class", "svg-container");
+        root.setAttribute("width", width + "px");
+        root.setAttribute("height", height + "px");
+        root.setAttribute("viewBox", "0 0 " + width + " " + height);
+        root.setAttribute("xmlns:xlink", mxConstants.NS_XLINK);
+        root.setAttribute("version", "1.1");
+  
+        // Adds group for anti-aliasing via transform
+        let group =
+          svgDoc.createElementNS != null
+            ? svgDoc.createElementNS(mxConstants.NS_SVG, "g")
+            : svgDoc.createElement("g");
+        group.setAttribute("transform", "translate(0.5,0.5)");
+        root.appendChild(group);
+        svgDoc.appendChild(root);
+  
+        // Renders graph. Offset will be multiplied with state's scale when painting state.
+        let svgCanvas = new mxSvgCanvas2D(group);
+        svgCanvas.translate(
+          Math.floor(border / scale - bounds.x),
+          Math.floor(border / scale - bounds.y)
+        );
+        svgCanvas.scale(scale);
+  
+        let imgExport = new mxImageExport();
+        imgExport.drawState(
+          this.graph.getView().getState(this.graph.model.root),
+          svgCanvas
+        );
+  
+        //let xml = encodeURIComponent(mxUtils.getXml(root)); //no need
+        let xml = mxUtils.getXml(root);
+        return xml;
+      },
+   
     handleScroll(e) {
       if (e.wheelDelta === 120) {
         this.graph.zoomIn();
@@ -1303,6 +1111,10 @@ export default {
 };
 </script>
 <style lang="less">
+.tool_item {
+  font-size: 20px;
+  font-weight: 600
+}
 @import "./general-shap.css";
 .customToolbarContainer {
   width: 100%;
@@ -1432,9 +1244,7 @@ export default {
     background-color: rgb(58, 58, 207);
     position: absolute;
   }
-  .el-collapse-item__header {
-    padding-left: 30px;
-  }
+  
   .right-bar {
     width: 260px;
     background-color: #fff;

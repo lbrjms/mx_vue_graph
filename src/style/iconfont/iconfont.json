@@ -1,0 +1,100 @@
+{
+  "id": "3901288",
+  "name": "wx",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5897423",
+      "name": "redo",
+      "font_class": "redo",
+      "unicode": "e7c2",
+      "unicode_decimal": 59330
+    },
+    {
+      "icon_id": "2404406",
+      "name": "组合",
+      "font_class": "zuhe1",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "5756279",
+      "name": "zoom out",
+      "font_class": "zoomout",
+      "unicode": "e897",
+      "unicode_decimal": 59543
+    },
+    {
+      "icon_id": "5756284",
+      "name": "zoom in",
+      "font_class": "zoomin",
+      "unicode": "e898",
+      "unicode_decimal": 59544
+    },
+    {
+      "icon_id": "5897419",
+      "name": "undo",
+      "font_class": "undo",
+      "unicode": "e7c1",
+      "unicode_decimal": 59329
+    },
+    {
+      "icon_id": "26661654",
+      "name": "缩放到等比",
+      "font_class": "suofangdaodengbi",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "577357",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e74b",
+      "unicode_decimal": 59211
+    },
+    {
+      "icon_id": "4511985",
+      "name": "导出图片",
+      "font_class": "daochutupian",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "5085760",
+      "name": "网格开",
+      "font_class": "wanggekai",
+      "unicode": "e783",
+      "unicode_decimal": 59267
+    },
+    {
+      "icon_id": "7629047",
+      "name": "分层",
+      "font_class": "fenceng",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "22553358",
+      "name": "环形布局",
+      "font_class": "ico_huanxingbuju",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "22553372",
+      "name": "树形布局",
+      "font_class": "ico_shuxingbuju",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "25495517",
+      "name": "随机数生成-选中",
+      "font_class": "suijishushengcheng-xuanzhong",
+      "unicode": "e764",
+      "unicode_decimal": 59236
+    }
+  ]
+}
