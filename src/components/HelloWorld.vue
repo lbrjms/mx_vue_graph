@@ -1,25 +1,5 @@
 <template>
   <div class="customToolbarContainer">
-    <!-- 左侧节点-->
-    <div class="toolbarContainer">
-      
-      <el-collapse v-model="activeNames">
-        <el-collapse-item name="1" title="基础节点" class="general-toolbar">
-          <span
-            v-for="item in generalToolbarItems"
-            :style="item['style']"
-            :class="item['class']"
-            :key="item['index']"
-            ref="generalToolItems"
-          >
-            <span class="generalTooltitle">{{ item["text"] }}</span>
-          </span>
-        </el-collapse-item>
-        <el-collapse-item name="1" title="电力图标" class="general-toolbar">
-        </el-collapse-item>
-
-      </el-collapse>
-    </div>
     <!-- 画布的顶部工具栏 -->
     <div class="top-tools">
       <el-col :span="4">
@@ -47,6 +27,27 @@
         </el-tooltip>
       </el-col>
     </div>
+    <!-- 左侧节点-->
+    <div class="toolbarContainer">
+      
+      <el-collapse v-model="activeNames">
+        <el-collapse-item name="1" title="基础节点" class="general-toolbar">
+          <span
+            v-for="item in generalToolbarItems"
+            :style="item['style']"
+            :class="item['class']"
+            :key="item['index']"
+            ref="generalToolItems"
+          >
+            <span class="generalTooltitle">{{ item["text"] }}</span>
+          </span>
+        </el-collapse-item>
+        <el-collapse-item name="2" title="电力图标" class="general-toolbar">
+        </el-collapse-item>
+
+      </el-collapse>
+    </div>
+    
     <!-- 中心画布 -->
     <div
       class="graphContainer"
@@ -171,8 +172,6 @@ export default {
     };
   },
   methods: {
-    
-
     // 创建画布并进行初始化
     createGraph() {
       // 创建graph
@@ -187,8 +186,7 @@ export default {
       mxRectangleShape.prototype.crisp = true;
       // 定义全局变量，如。用于触发建立新的连接的活动区域的最小尺寸（以像素为单位），该部分（100％）的小区区域被用于触发新的连接，以及一些窗口和“下拉菜菜单选择
       mxConstants.MIN_HOTSPOT_SIZE = 16;
-      mxConstants.DEFAULT_HOTSPOT = 1;
-
+      // mxConstants.DEFAULT_HOTSPOT = 1; ..
       //cell创建支持传入html
       this.graph.setHtmlLabels(true);
       this.graph.setDropEnabled(true);
@@ -534,7 +532,7 @@ export default {
           if (addCell.vertex) {
             // 判断是否为组节点
             if (addCell.isGroup) {
-              this.$message.info("添加了一个组");
+              // this.$message.info("添加了一个组");
               let groupObj = _.pick(addCell, [
                 "id",
                 "title",
@@ -550,7 +548,7 @@ export default {
                 "geometry",
               ]);
               this.jsonData["cells"]["nodes"].push(nodeObj);
-              this.$message.info("添加了一个节点");
+              // this.$message.info("添加了一个节点");
             }
             //  向jsonData中更新数据
           } else if (addCell.edge) {
@@ -577,10 +575,10 @@ export default {
           evt.properties.cells.forEach((item) => {
             item.parent.id.includes("group") && cellsName.push(item.title);
           });
-          evt.properties.cells[0].parent.id !== "1" &&
-            this.$message.info(
-              `${[...cellsName]}节点进入${evt.properties.cells[0].parent.title}`
-            );
+          // evt.properties.cells[0].parent.id !== "1" &&
+          //   this.$message.info(
+          //     `${[...cellsName]}节点进入${evt.properties.cells[0].parent.title}`
+          //   );
         });
       });
       // 删除节点触发事件
