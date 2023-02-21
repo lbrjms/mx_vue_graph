@@ -10,6 +10,9 @@ Vue.use(ElementUI);
 import JsonViewer from 'vue-json-viewer'
 Vue.use(JsonViewer)
 
+import '@/components/svgIcon/index.js' // svg icon
+
+
 Vue.config.productionTip = false
 
 new Vue({
