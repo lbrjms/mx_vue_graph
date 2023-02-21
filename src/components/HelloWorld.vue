@@ -1,5 +1,6 @@
 <template>
   <div class="customToolbarContainer">
+
     <!-- 左侧节点-->
     <div class="toolbarContainer">
       
@@ -15,7 +16,11 @@
             <span class="generalTooltitle">{{ item["text"] }}</span>
           </span>
         </el-collapse-item>
-        <el-collapse-item name="1" title="电力图标" class="general-toolbar">
+        <el-collapse-item name="2" title="电力图标" class="general-toolbar" >
+          <div style="width: 100%;height: 200px;">
+            <svg-icon  icon-class="1-002" size="40"></svg-icon>
+
+          </div>
         </el-collapse-item>
 
       </el-collapse>
@@ -1329,5 +1334,10 @@ div.mxPopupMenu {
   width: 80%;
   display: inline-block;
   border: 1px solid #eeee;
+}
+.svg-icon-box {
+          width: 32px;
+          height: 32px;
+          color: red;
 }
 </style>
